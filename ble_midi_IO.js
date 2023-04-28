@@ -7,7 +7,7 @@ midi.send(channel, controller, value);
 */
 
 /// Turns the device into a MIDI controller
-exports.init = function() {
+exports.init = function(deviceName) {
   NRF.setServices({
     "03B80E5A-EDE8-4B33-A751-6CE34EC4C700": { // MIDI
       "7772E5DB-3868-4112-A1A9-F2669D106BF3": {
@@ -22,7 +22,10 @@ exports.init = function() {
     // Flags: LE Limited Discoverable Mode, BR/EDR Not Supported
     0x02, 0x01, 0x05,
     // Complete Local Name: PuckCC
-    0x07, 0x09, 0x50, 0x75, 0x63, 0x6B, 0x43, 0x43,
+//     0x07, 0x09, 0x50, 0x75, 0x63, 0x6B, 0x43, 0x43,
+    // Complete Local Name
+    0x0B, 0x09
+    deviceName.length + 1, 0x09].concat(deviceName.split('').map(c => c.charCodeAt(0))),
     // MIDI
     0x11, 0x06, 0x00, 0xC7, 0xC4, 0x4E, 0xE3, 0x6C, 0x51,
     0xA7, 0x33, 0x4B, 0xE8, 0xED, 0x5A, 0x0E, 0xB8, 0x03
